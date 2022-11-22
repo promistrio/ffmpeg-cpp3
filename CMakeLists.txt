@@ -19,11 +19,21 @@ endif()
 file(GLOB_RECURSE INC sources/*.h)
 file(GLOB_RECURSE SRC sources/*.cpp)
 
+pkg_check_modules(LIBAV REQUIRED IMPORTED_TARGET
+    libavdevice
+    libavfilter
+    libavformat
+    libavcodec
+    libswresample
+    libswscale
+    libavutil
+)
+
 add_library(${PROJECT_NAME} ${SRC}) 
 
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/sources )
 
 
-target_link_libraries(${PROJECT_NAME} ffmpeg vpx va va-drm va-glx)
+target_link_libraries(${PROJECT_NAME} PkgConfig::LIBAV )
 
